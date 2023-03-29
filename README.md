@@ -31,6 +31,9 @@ As I already have a comprehensive manager for both Eyelink and Tobii eyetrackers
 sM = screenManager();
 eT = irecManager();
 
+eT.useOperatorScreen = true; % need 2 displays it will show current eye position on experimenter machine
+eT.isdummy = false; % if set to true you can use the mouse as a fake iRec, useful for debugging...
+
 open(sM);
 initialise(eT, sM);
 trackerSetup(eT); % calibration and validation
@@ -42,17 +45,18 @@ startRecording(eT); % start our online data stream
 trackerMessage(eT, int32(1));
 for i = 1 : sM.screenVals.fps*5
     drawCross(sM); % draw a cross (center is default);
-    getSample(eT); 5 get the latest eye position sample
+    getSample(eT); % get the latest eye position sample
 
-    fprintf('X = %.2f | Y = %.2f | Pupil = %.2f\n',eT.X, eT.Y, eT.pupil);
-    inWindow = isFixated(eT); % check if we are inside a fixation window
+    fprintf('X = %.2f | Y = %.2f | Pupil = %.2f\n', eT.X, eT.Y, eT.pupil);
+
+    inWindow = isFixated(eT); % check if we are inside the fixation window
     if inWindow
         drawDotsDegs(sM, [eT.X;eT.Y], 0.6, [0 1 0]); % draw a green eye position dot
     else
         drawDotsDegs(sM, [eT.X;eT.Y], 0.4, [0.5 0.5 0]); % draw a yellow eye position dot
     end
 
-    flip(sM); 
+    flip(sM); % flip the screen
 end
 trackerMessage(eT, int32(-1));
 stopRecording(eT); % stop the online data stream
