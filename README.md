@@ -65,6 +65,8 @@ close(eT);
 close(sM);
 ```
 
+Note you can change the location that the data is saved by setting an environment variable: `IRECHS2STORE=C:\Users\ME\DATAFOLDER`
+
 Please see iRecTests in this folder for runnable examples.
 
 ## Some useful functions
