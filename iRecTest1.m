@@ -7,6 +7,7 @@ assert(exist('addOptickaToPath','file'),'Please install opticka first');
 % with the iRec.
 e = iRecManager();
 e.useOperatorScreen = true; % a control screen for experimenter, you need 2 displays for this
+e.isDummy = false;
 
 %% iRec uses TCP+UDP for interaction
 e.calibration.tcpport = 35001;
@@ -52,7 +53,7 @@ for thisTrial = 1:5
 	trackerFlip(e,0,true);
 
 	% send a trial start value
-	trackerMessage(e, int32(thisTrial));
+	trackerMessage(e, thisTrial);
 
 	vbl = flip(sM); tStart = vbl;
 	while vbl < tStart + 10
@@ -78,7 +79,7 @@ for thisTrial = 1:5
 		trackerFlip(e);
 	
 	end
-	trackerMessage(e, int32(-1)); % send a udp message at end of trial
+	trackerMessage(e, -1); % send a udp message at end of trial
 	WaitSecs(1);
 end
 

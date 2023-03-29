@@ -42,7 +42,7 @@ eT.fixation.X = 0;
 eT.fixation.Y = 0;
 
 startRecording(eT); % start our online data stream
-trackerMessage(eT, int32(1));
+trackerMessage(eT, 1);
 for i = 1 : sM.screenVals.fps*5
     drawCross(sM); % draw a cross (center is default);
     getSample(eT); % get the latest eye position sample
@@ -58,7 +58,7 @@ for i = 1 : sM.screenVals.fps*5
 
     flip(sM); % flip the screen
 end
-trackerMessage(eT, int32(-1));
+trackerMessage(eT, -1);
 stopRecording(eT); % stop the online data stream
 
 close(eT);
