@@ -19,6 +19,12 @@ e.calibration.udpport = 35000;
 e.calibration.calPositions = [-15 0; 0 -15; 0 0; 0 15; 15 0];
 e.calibration.valPositions = [-15 0; 0 -15; 0 0; 0 15; 15 0];
 
+%% we can set one or more fixation windows
+e.fixation.x = 0;
+e.fixation.y = 0;
+e.fixation.initTime = 3;
+e.fixation.fixTime = 0.5;
+e.fixation.radius = 5;
 
 %% screenManager is a class to manage PTB's Screen() function. Almost all the
 % possible screen functions are available and all wrapped into the 'sM' object
@@ -33,7 +39,7 @@ if IsWin; sM.disableSyncTests = true; end
 open(sM); 
 
 %% create generic RDS stimulus
-dots = dotsStimulus('size',10,'coherence',0.5);
+dots = dotsStimulus('size',10,'coherence',0.5,'mask',true);
 
 %% each stimulus class must be setup using our screenManager object, sM.
 setup(dots, sM); %setup our stimulus using our screen
@@ -64,15 +70,22 @@ for thisTrial = 1:5
 	
 		% get latest eyetracker sample
 		getSample(e);
+		e.currentSample; % this is the raw data
+		e.x; % this is the latest X position in degrees
+		e.y; % this is the latest Y position in degrees
+		e.pupil;  % this is the pupil size
 
 		% check fixation window
-		isFixated(e);
+		[inWindow, fixTime] = isFixated(e); % check if we are inside the fixation window
 
-		% draw eye position on subject display
+    	t = sprintf('TRIAL %i | X = %2.2f | Y = %2.2f | Pupil = %2.2f | Fix: %i | FixTime: %2.2f\n', thisTrial, e.x, e.y, e.pupil, inWindow, fixTime);
+
+		% draw eye info on subject display
 		drawEyePosition(e);
+		drawText(sM, t);
 		
 		% draw some info on the operator screen
-		trackerDrawText(e,sprintf('Running Trial %i',thisTrial));
+		trackerDrawFixation(e);
 		trackerDrawEyePosition(e); %draw eye position on operator screen
 
 		vbl = flip(sM);
@@ -80,6 +93,8 @@ for thisTrial = 1:5
 	
 	end
 	trackerMessage(e, -1); % send a udp message at end of trial
+	flip(sM);
+	trackerFlip(e,0,true;)
 	WaitSecs(1);
 end
 

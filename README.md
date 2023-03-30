@@ -29,39 +29,38 @@ As I already have a comprehensive manager for both Eyelink and Tobii eyetrackers
 
 ```matlab
 sM = screenManager();
-eT = irecManager();
+e = irecManager();
 
-eT.useOperatorScreen = true; % need 2 displays it will show current eye position on experimenter machine
-eT.isdummy = false; % if set to true you can use the mouse as a fake iRec, useful for debugging...
+e.useOperatorScreen = true; % need 2 displays it will show current eye position on experimenter machine
+e.isdummy = false; % if set to true you can use the mouse as a fake iRec, useful for debugging...
 
 open(sM);
-initialise(eT, sM);
-trackerSetup(eT); % calibration and validation
+initialise(e, sM);
+trackerSetup(e); % calibration and validation
 
-eT.fixation.X = 0;
-eT.fixation.Y = 0;
+e.fixation.X = 0;
+e.fixation.Y = 0;
 
-startRecording(eT); % start our online data stream
-trackerMessage(eT, 1);
+startRecording(e); % start our online data stream
+trackerMessage(e, 1);
 for i = 1 : sM.screenVals.fps*5
     drawCross(sM); % draw a cross (center is default);
-    getSample(eT); % get the latest eye position sample
+    getSample(e); % get the latest eye position sample
+    [inWindow, fixTime] = isFixated(e); % check if we are inside the fixation window
 
-    fprintf('X = %.2f | Y = %.2f | Pupil = %.2f\n', eT.X, eT.Y, eT.pupil);
-
-    inWindow = isFixated(eT); % check if we are inside the fixation window
-    if inWindow
-        drawDotsDegs(sM, [eT.X;eT.Y], 0.6, [0 1 0]); % draw a green eye position dot
-    else
-        drawDotsDegs(sM, [eT.X;eT.Y], 0.4, [0.5 0.5 0]); % draw a yellow eye position dot
-    end
+    t = sprintf('X = %.2f | Y = %.2f | Pupil = %.2f | Fix: %i | FixTime: %.2f\n', e.x, e.y, e.pupil, inWindow, fixTime);
+    
+    drawEyePosition(e);
+    drawtext(sM, t);
+    trackerdraweyePosition(e);
 
     flip(sM); % flip the screen
+    trackerFlip(e); % flip the operator screen
 end
-trackerMessage(eT, -1);
-stopRecording(eT); % stop the online data stream
+trackerMessage(e, -1);
+stopRecording(e); % stop the online data stream
 
-close(eT);
+close(e);
 close(sM);
 ```
 
