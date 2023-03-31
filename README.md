@@ -58,7 +58,7 @@ for i = 1 : sM.screenVals.fps*5
     drawtext(sM, t);
     trackerdraweyePosition(e);
 
-    flip(sM); % flip the screen
+    flip(sM); % flip the subject screen
     trackerFlip(e); % flip the operator screen
 end
 trackerMessage(e, -1);
