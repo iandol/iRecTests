@@ -33,7 +33,7 @@ As I already have a comprehensive manager for both Eyelink and Tobii eyetrackers
 
 ```matlab
 sM = screenManager();
-e = irecManager();
+e = iRecManager();
 
 e.useOperatorScreen = true; % need 2 displays it will show current eye position on experimenter machine
 e.isdummy = false; % if set to true you can use the mouse as a fake iRec, useful for debugging...
@@ -72,7 +72,7 @@ Note you can change the location that the data is saved by setting an environmen
 
 Please see [iRecTest1.m](https://github.com/iandol/iRecTests/blob/main/iRecTest1.m) in this folder for runnable example.
 
-## Some useful functions
+## Some useful functions in `iRecManager`
 
 - `startRecording` / `stopRecording` -- to start/stop online data access
 - `getSample` -- get the latest sample and store the data to X, Y and Pupil values. It uses `smoothing` parameters.
