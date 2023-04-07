@@ -1,8 +1,10 @@
 # iRecTests
 
-See https://staff.aist.go.jp/k.matsuda/iRecHS2/index_e.html for the latest software version. The original paper is here: https://link.springer.com/chapter/10.1007/978-3-319-58071-5_45 -- there is few English documentation so we auto-[translated the Japanese manuals here](https://github.com/iandol/iRecTests/tree/main/Documents).
+* The English links and software is here: https://staff.aist.go.jp/k.matsuda/iRecHS2/index_e.html. 
+* The original paper is here: https://link.springer.com/chapter/10.1007/978-3-319-58071-5_45 
+* There is little English documentation so we [google-translated the Japanese manuals downloadable here](https://github.com/iandol/iRecTests/tree/main/Documents).
 
-The iRecHS2 is a low-cost and high-data-quality eyetracker that utilises FLIR machine vision cameras (e.g. the ~500Hz Chameleon3 CM3-U3-13Y3M is ~$300). The software developed by Dr. Keiji Matsuda has a Windows 10/11 GUI interface using TCP and UDP for communication with other experimental software. TCP sends commands to start and stop streaming online data that is returned as lines of text via TCP. You can read all the data in the buffer then process lines, but for online you are usually only interested in the latest sample, so can throw everything but the last few lines (you can smooth the data if you have several samples). UDP is used to send fast markers to be saved with the data. TCP data is 8bit byte strings, USP is 32bit signed integers (int32).
+The iRecHS2 is a low-cost and high-data-quality eyetracker that utilises FLIR machine vision cameras (e.g. the ~500Hz Chameleon3 CM3-U3-13Y3M is ~$300). The software developed by Dr. Keiji Matsuda has a Windows 10/11 GUI interface using TCP and UDP for communication with other experimental software. TCP sends commands to start and stop streaming online data that is returned as lines of text via TCP. You can read all the data in the buffer then process lines, but for online you are usually only interested in the latest sample, so can throw everything but the last few lines (you can smooth the data if you have several samples). UDP is used to send fast markers to be saved with the data. TCP data is 8bit byte strings, UDP is 32bit signed integers (int32).
 
 There is a some Psychopy sample code, but for PTB it isn't too difficult to set up. We use our experiment framework opticka which has a manager that interfaces with the iRecHS2 to handle calibration, validation, drift correction and managing the use of fixation windows etc.
 
