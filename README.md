@@ -86,4 +86,79 @@ Please see [iRecTest1.m](https://github.com/iandol/iRecTests/blob/main/iRecTest1
 
 We found that as long as we use different UDP ports and start iRecHS2 software with different `IRECHS2STORE` variables, we can run and calibrate TWO eyetrackers on the same system. This is really great for social cognition tasks!
 
+# Analysis
+
+I modified my `eyelinkAnalysis` class to make a `iRecAnalysis` class. This allows you to load up and parse the CSV data produced by the iRec. We use the UDP messages where a value > 0 is the trial number and start time, a 0 is the trial end, and negative integers can be commands with various meanings. My code parses microosaccades using Engbert & Mergenthaler 2006 algorithm, but I've also added https://github.com/dcnieho/NystromHolmqvist2010 analysis for the data which does more data cleaning/filtering before it applies routines for saccades, glissades, blinks and fixations. This is fairly easy to use:
+
+```matlab
+i = iRecManager
+i.parse; % this loads and parses the CSV file into trials
+i.plot(1:10) % plot first 10 trials
+i.plotNH(10) % plot NystromHolmqvist2010 results
+```
+
+The raw CSV data is stored here:
+
+```matlab
+i.raw
+i.markers
+```
+
+The processed data is stored in i.trials which is a X length structure, e.g. the 25th trial has been parsed as:
+
+```matlab
+>> i.trials(25)
+ans = 
+  struct with fields:
+
+               variable: 25
+    variableMessageName: []
+                    idx: 25
+         correctedIndex: 25
+                   time: []
+                     rt: 0
+             rtoverride: 0
+              fixations: []
+                   nfix: []
+               saccades: []
+                  nsacc: []
+           saccadeTimes: []
+           firstSaccade: NaN
+                   uuid: []
+                 result: []
+                invalid: 0
+                correct: 1
+               breakFix: 0
+              incorrect: 0
+                unknown: 0
+               messages: []
+                 sttime: 5.197832750000000e+02
+                 entime: 5.227698470000000e+02
+              totaltime: 0
+        startsampletime: 5.187832750000000e+02
+          endsampletime: 5.217832750000000e+02
+              timeRange: [-0.999328999999989 1.999232000000006]
+            rtstarttime: 5.197832750000000e+02
+         rtstarttimeOLD: NaN
+              rtendtime: 5.227698470000000e+02
+               synctime: 5.197832750000000e+02
+                 deltaT: 2.986572000000024
+                 rttime: NaN
+                  times: [1541×1 double]
+                     gx: [1541×1 double]
+                     gy: [1541×1 double]
+                     hx: []
+                     hy: []
+                     pa: [1541×1 double]
+                  msacc: [1×33 struct]
+         sampleSaccades: [-0.997380000000021 -0.979857000000038 -0.966228000000001 … ]
+          microSaccades: [-0.800722999999948 -0.654688999999962 -0.576803000000041 … ]
+                 radius: [38.263537240345663 62.553389704134901]
+                 pratio: [1541×1 double]
+                  blink: [1541×1 double]
+                  isTOI: 0
+                   data: [1×1 struct]
+```
+
+Useful fields: `times` `gx` `gy` `pa` are x y and pupil data with a trial based time. `msacc` is the [micro]saccade structure. `data` is the results of NystromHolmqvist2010 for that trial.
 
