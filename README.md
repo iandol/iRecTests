@@ -91,10 +91,11 @@ We found that as long as we use different UDP ports and start iRecHS2 software w
 I modified my `eyelinkAnalysis` class to make a `iRecAnalysis` class. This allows you to load up and parse the CSV data produced by the iRec. We use the UDP messages where a value > 0 is the trial number and start time, a 0 is the trial end, and negative integers can be commands with various meanings. My code parses microosaccades using Engbert & Mergenthaler 2006 algorithm, but I've also added https://github.com/dcnieho/NystromHolmqvist2010 analysis for the data which does more data cleaning/filtering before it applies routines for saccades, glissades, blinks and fixations. This is fairly easy to use:
 
 ```matlab
-i = iRecManager
+i = iRecManager; % this asks for a CSV filename
 i.parse; % this loads and parses the CSV file into trials
 i.plot(1:10) % plot first 10 trials
-i.plotNH(10) % plot NystromHolmqvist2010 results
+i.plotNH(10); % plot NystromHolmqvist2010 results
+i.explore; % plot the two results side-by-side and scroll through trial to trial
 ```
 
 The raw CSV data is stored here:
