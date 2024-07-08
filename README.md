@@ -1,3 +1,6 @@
+> [!NOTE]
+> Dr. Matsuda just released some new variants of iRecHS2. These support the SpinnakerSDK and there will be an MRI compatible camera SDK too. At present only the source has been released. The notes below apply to the FlyCapture SDK version of iRecHS2. But having the source released is a great step forwards.
+
 # iRecTests
 
 * The English links and software is here: https://staff.aist.go.jp/k.matsuda/iRecHS2/index_e.html. 
