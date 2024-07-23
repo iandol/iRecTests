@@ -11,6 +11,18 @@ The iRecHS2 is a low-cost and high-data-quality eyetracker that utilises FLIR ma
 
 There is a some Psychopy sample code, but for PTB it isn't too difficult to set up. We use our full experiment framework opticka which has a manager that interfaces with the iRecHS2 to handle calibration, validation, drift correction and managing the use of fixation windows, screen exclusion zones, initiation timers to stop cheating and several other features...
 
+# Materials
+
+We chose the lens based on our requirements for distance-to-subject, the focal length can be changed to optimise for your setup.
+
+| iRec setup list | Manufacturer Details                                                                                  | Model Type      | Source                       | Price (¥) |
+|-----------------|-------------------------------------------------------------------------------------------------------|-----------------|------------------------------|-----------|
+| Camera          | FLIR https://www.flir.com/products/chameleon3-usb3/?model=CM3-U3-13Y3M-CS                             | CM3-U3-13Y3M-CS | 苏州晟吉川自动化设备有限公司 | 3500      |
+| Lens            | Fuji                                                                                                  | HF12.5HA-1S     | 铨识自动化科技上海有限公司   | 720       |
+| Filter          | /                                                                                                     | LQA-850-25.5    | 铨识自动化科技上海有限公司   | 230       |
+| IR              | Taobao：https://item.taobao.com/item.htm?spm=a1z09.2.0.0.6e712e8dYTbmGW&id=26584916220&_u=n267464ad19 |                 |                              | 25        |
+| Adapter         | CS to C lens                                                                                          | CS to C         | 铨识自动化科技上海有限公司   | /         |
+
 ## Install Opticka
 
 iRecHS2 is Windows-only software so the instructions are for Windows, but as recommended by the lead PTB programmer it would be better to run Opticka/PTB on a seperate system (that is what we do), as Linux is much better than Windows for precise stimulus timing...
